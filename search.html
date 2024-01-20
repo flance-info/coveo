@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Autocomplete with Checkboxes</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        .ui-autocomplete {
+            max-height: 150px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .autocomplete-checkbox {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="search">Search:</label>
+    <input type="text" id="search">
+
+    <div id="checkbox-container"></div>
+
+    <script>
+        $(document).ready(function() {
+            var availableTags = [
+                "Apple",
+                "Banana",
+                "Cherry",
+                "Date",
+                "Grape",
+                "Kiwi",
+                "Lemon",
+                "Mango",
+                "Orange",
+                "Peach",
+                "Pear"
+            ];
+
+            $("#search").autocomplete({
+                source: availableTags,
+                select: function(event, ui) {
+                    // Prevent the default behavior of the autocomplete
+                    event.preventDefault();
+
+                    // Add a checkbox for the selected item
+                    var checkbox = $("<input type='checkbox' class='autocomplete-checkbox'>")
+                        .attr("id", "checkbox-" + ui.item.label)
+                        .attr("value", ui.item.label)
+                        .prop("checked", true);
+
+                    var label = $("<label>")
+                        .attr("for", "checkbox-" + ui.item.label)
+                        .text(ui.item.label);
+
+                    $("#checkbox-container").append(checkbox).append(label);
+
+                    // Clear the autocomplete input
+                    $(this).val('');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
